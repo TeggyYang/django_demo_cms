@@ -1,0 +1,56 @@
+{% extends "pic_app/base.html" %}
+
+{% block content %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+        <tr>pid:<input type="text" name="pic_pid"/></tr><br/>
+        <tr>图片:<input type="file" name="pic"/></tr><br/>
+{#        <tr>是否人工校验:<input type="text" name="pic_ischecked"/></tr><br/>#}
+        <tr>是否人工校验：
+        <select name="pic_ischecked">
+            <option value="1">True</option>
+            <option value="0">False</option>
+        </select>
+        <br/>
+{#        <tr>是否有效:<input type="text" name="pic_isvalid"/></tr><br/>#}
+        <tr>是否有效：
+        <select name="pic_isvalid">
+            <option value="1">True</option>
+            <option value="0">False</option>
+        </select>
+        <br/>
+        <tr>学科：
+        <select name="pic_course">
+        {% for course in course %}
+                <option value="{{course.cid}}">{{course.cname}}</option>
+        {% endfor %}
+        </select>
+        </tr>
+        <br/>
+        <tr>ocr文本:<input type="text" name="pic_ocr"/></tr><br/>
+        <tr>精准文本:<input type="text" name="pic_correct"/><tr><br/>
+{#        <tr>是否正确结果:<input type="text" name="pic_result"/><tr><br/>#}
+        <tr>是否正确结果：
+        <select name="pic_result">
+            <option value=1>True</option>
+            <option value=0>False</option>
+        </select>
+        <br/>
+        <tr>相同题目Id:<input type="text" name="pic_sameid"/><tr><br/>
+        <tr>错误来源:<input type="text" name="pic_err"/></tr><br/>
+    </table>
+    <input type="submit"  value="提交" onclick="pic_add()"/><br/>
+    <a href=" {% url 'items_detail'  %} ">&laquo; 返回到图片列表</a>
+</form>
+
+<script src="/static/js/jquery-1.10.2.js"></script>
+<script>
+
+    function pic_add(pic_id) {
+        alert("提交成功");
+    }
+</script>
+
+{% endblock %}

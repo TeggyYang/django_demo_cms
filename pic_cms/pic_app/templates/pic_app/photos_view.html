@@ -1,0 +1,40 @@
+{% extends "pic_app/base.html" %}
+
+{% block content %}
+
+<table>
+
+pid:<tr>{{pic_update.pid}}</tr><br/>
+<img src="/media/{{pic_update.image}}" />
+<br/>
+是否人工校验:<tr>{{pic_update.is_checked}}</tr><br/>
+是否有效:<tr>{{pic_update.is_valid}}</tr><br/>
+学科:<tr>{{pic_update.course.cname}}</tr><br/>
+ocr文本:<tr>{{pic_update.ocr_text}}</tr><br/>
+精准文本:<tr>{{pic_update.correct_text}}<tr><br/>
+是否正确结果<tr>{{pic_update.get_result}}<tr><br/>
+相同题目Id:<tr>{{pic_update.same_qid}}<tr><br/>
+错误来源:<tr>{{pic_update.err_source}}</tr><br/>
+</table>
+
+{#<table>#}
+{#<tr>pid:<input type="text" value={{pic_update.pid}}></tr>#}
+{#<img src="{{ pic_detail.image.url}}" />#}
+{#<br/>#}
+{#<tr>是否人工校验<input type="text" value={{pic_update.is_checked}}></tr><br/>#}
+{#<tr>是否有效:<input type="text" value={{pic_update.is_valid}}></tr><br/>#}
+{#<tr>学科:<input type="text" value={{pic_update.course.cname}}></tr><br/>#}
+{#<tr>ocr文本:<input type="text" value={{pic_update.ocr_text}}></tr><br/>#}
+{#<tr>精准文本:<input type="text" value={{pic_update.correct_text}}><tr><br/>#}
+{#<tr>是否正确结果：<input type="text" value={{pic_update.get_result}}/><tr><br/>#}
+{#<tr>相同题目Id<input type="text" value={{pic_update.same_qid}}><tr><br/>#}
+{#<tr>错误来源:<input type="text" value={{pic_update.err_source}}></tr><br/>#}
+{#</table>#}
+
+<a href="/pic_app/pic_detail_update/?pid={{pic_update.pid}}/">
+    <input id="btn" type="button"  value="修改" />
+</a>
+<br/>
+<a href=" {% url 'items_detail'  %} ">&laquo; 返回到图片列表</a>
+
+{% endblock %}

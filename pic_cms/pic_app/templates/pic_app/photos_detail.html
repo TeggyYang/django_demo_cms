@@ -1,0 +1,18 @@
+{% extends "pic_app/base.html" %}
+
+{#{% block p_id %}{{ object.item.name }} - {{ object.p_id }}{% endblock %}#}
+
+{% block content %}
+
+<h2>图片id:{{ pic_detail.pid }} </h2>
+<img src="/media/{{ pic_detail.image}}" />
+{#<h2>是否人工校验:{{ pic_detail.is_checked }} </h2>#}
+{#<h2>是否有效:{{ pic_detail.is_valid }} </h2>#}
+{#<h2>学科:{{ pic_detail.course.cname }} </h2>#}
+{#<h2>ocr文本:{{ pic_detail.ocr_text}} </h2>#}
+{#<h2>精准文本:{{ pic_detail.correct_text }} </h2>#}
+{#<h2>错误来源:{{ pic_detail.err_source }} </h2>#}
+<br/>
+<a href=" {% url 'items_detail'  %} ">&laquo; 返回到图片列表</a>
+
+{% endblock %}

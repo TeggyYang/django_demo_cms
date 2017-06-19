@@ -1,0 +1,103 @@
+{% extends "pic_app/base.html" %}
+
+{#{% block p_id %}{{ object.name }}{% endblock %}#}
+
+{% block content %}
+
+{#> <a href="{% url 'items_detail'  %}"> 全部图片 </a><br/>#}
+{#        >><a href="{% url 'items_checked'  %}"> 已标注图片 </a>&nbsp&nbsp#}
+{#        <a href="{% url 'items_unchecked'  %}"> 未标注图片 </a><br/>#}
+{#        >><a href="{% url 'items_valid'  %}"> 有效图片 </a>&nbsp&nbsp#}
+{#        <a href="{% url 'items_unvalid'  %}"> 无效图片 </a><br/>#}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+        人工校验：
+        <select id="check" name="pic_ischecked">
+            <option value="0">全部</option>
+            <option value="1">已人工校验</option>
+            <option value="2">未人工校验</option>
+        </select>&nbsp;&nbsp;
+        是否有效图片：
+        <select id="valid" name="pic_isvalid">
+            <option value="3">全部</option>
+            <option value="4">有效</option>
+            <option value="5">无效</option>
+        </select>&nbsp;&nbsp;
+<input type="button" onclick="getIndex()" value="确定 ">
+
+</form>
+
+<div>
+    <div align="right">
+        <a href="/pic_app/add/">
+            <input id="btn" type="button"  value="增加图片" />
+        </a>
+    </div>
+</div>
+<table>
+    <tr>
+        <th width="200px">id</th>
+        <th width="100px">图片</th>
+        <th width="50px">是否人工校验</th>
+        <th width="50px">是否有效</th>
+        <th width="100px">学科</th>
+        <th width="100px">ocr文本</th>
+        <th width="100px">精准文本</th>
+        <th width="100px">是否得到结果</th>
+        <th width="100px">相同题目ID</th>
+        <th width="100px">错误原因</th>
+    </tr>
+    {% for pic in pictures %}
+    <tr>
+        <td width="100px"><i>{{ pic.pid }}</i></td>
+        <td width="100px">
+            <a href="/pic_app/pic_detail_view/?pid={{pic.pid}}/">
+                <img src="/media/{{ pic.image }}"  width="128" height="100"/>
+            </a>
+        </td>
+        <td width="50px">{{ pic.is_checked }}</td>
+        <td width="50px">{{ pic.is_valid }}</td>
+        <td width="100px">{{ pic.course.cname }}</td>
+        <td width="100px">{{ pic.ocr_text }}</td>
+        <td width="100px">{{ pic.correct_text }}</td>
+        <td width="50px">{{ pic.get_result }}</td>
+        <th width="100px">{{ pic.same_qid}}</th>
+        <td width="100px">{{ pic.err_source }}</td>
+        <td width="50px">
+            <a href="/pic_app/pic_detail_view_update/?pid={{pic.pid}}/">
+                <input id="btn" type="button"  value="查看" />
+            </a>
+        </td>
+       <td width="50px"><input type="button" value="删除" onclick="delete_pic('{{ pic.pid }}')"/></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<script src="/static/js/jquery-1.10.2.js"></script>
+<script>
+
+    function getIndex() {
+    　　var a=document.getElementById("check");
+        var b=a.options[a.selectedIndex].value; 　　
+    　　var c=document.getElementById("valid");
+        var d=c.options[c.selectedIndex].value; 　
+{#        alert(b);#}
+{#        alert(d);#}
+{#        $.getJSON("http://127.0.0.1:8000/pic_app/filter/?check="+b+"valid="+d)#}
+
+        window.location.href="http://127.0.0.1:8000/pic_app/filter/?check="+b+"&valid="+d;
+    }
+    function delete_pic(pic_id) {
+        var delete_que = confirm("Do you really want to delete?");
+        if (delete_que) {
+        $.getJSON("http://127.0.0.1:8000/pic_app/pic_detail_delete/?pic_id="+pic_id, '', function (response) {
+            location.reload();
+        })
+        } else {
+            return;
+        }
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "pic_app/base.html" %}
+
+{% block p_id %}首页{% endblock %}
+
+{% block content %}
+
+{#<p><a> 全部图片 </a></p>#}
+<p><a href="{% url 'items_detail'  %}"> 全部图片 </a></p>
+{% endblock %}

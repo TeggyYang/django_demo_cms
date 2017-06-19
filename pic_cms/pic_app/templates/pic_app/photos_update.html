@@ -1,0 +1,74 @@
+{% extends "pic_app/base.html" %}
+
+{% block content %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+        <tr>pid:<input type="text" value={{pic_update.pid}} name="pic_pid"></tr>
+        <img src="{{ pic_detail.image.url}}" />
+        <br/>
+{#        <tr>是否人工校验<input type="text" name="pic_ischecked" value={{pic_update.is_checked}} ></tr><br/>#}
+{#        <tr>是否有效:<input type="text" name="pic_isvalid" value={{pic_update.is_valid}}></tr><br/>#}
+{#        <tr>学科:<input type="text"  name="pic_course" value={{pic_update.course.cname}} ></tr><br/>#}
+        <tr>是否人工校验：
+        <select name="pic_ischecked">
+            <option value="1">True</option>
+            <option value="0">False</option>
+        </select>
+        <br/>
+{#        <tr>是否有效:<input type="text" name="pic_isvalid"/></tr><br/>#}
+        <tr>是否有效：
+        <select name="pic_isvalid">
+            <option value="1">True</option>
+            <option value="0">False</option>
+        </select>
+        <br/>
+        <tr>学科：
+        <select name="pic_course">
+        {% for course in course %}
+                <option value="{{course.cid}}">{{course.cname}}</option>
+        {% endfor %}
+        </select>
+        </tr>
+        <br/>
+        <tr>ocr文本:<input type="text" name="pic_ocr" value={{pic_update.ocr_text}} ></tr><br/>
+        <tr>精准文本:<input type="text" name="pic_correct" value={{pic_update.correct_text}} ><tr><br/>
+{#        <tr>是否正确结果：<input type="text" name="pic_result" value={{pic_update.get_result}}><tr><br/>#}
+        <tr>是否正确结果：
+        <select name="pic_result">
+            <option value=1>True</option>
+            <option value=0>False</option>
+        </select>
+        <br/>
+        <tr>相同题目Id<input type="text" name="pic_sameid" value={{pic_update.same_qid}}><tr><br/>
+        <tr>错误来源:<input type="text" name="pic_err" value={{pic_update.err_source}}></tr><br/>
+    </table>
+
+    <a href="/pic_app/pic_detail_update/?pid={{pic_update.pid}}/">
+{#        <input id="btn" type="submit"  value="提交修改" onclick="update_pic('{{ pic.pid }}')" />#}
+        <input id="btn" type="submit"  value="提交修改" onclick="pic_update()">
+    </a>
+    <br/>
+    <a href=" {% url 'items_detail'  %} ">&laquo; 返回到图片列表</a>
+</form>
+
+<script src="/static/js/jquery-1.10.2.js"></script>
+<script>
+    function pic_update() {
+        alert("提交成功");
+    }
+
+    function update_pic(pic_id) {
+        var update_que = confirm("Do you really want to update?");
+        if (update_que) {
+        $.getJSON("http://127.0.0.1:8000/pic_app/pic_detail_update_sumbit/?pic_id="+pic_id, '', function (response) {
+            location.reload();
+        })
+        } else {
+            return;
+        }
+    }
+</script>
+
+{% endblock %}
